@@ -30,5 +30,5 @@ Route::post('/add-new-membre/userid={userid}/groupeid={groupeid}', [App\Http\Con
 
 Route::post('/add-new-membre2', [App\Http\Controllers\EquipeController::class, 'addNewMembre2']);
 
-
+Route::delete('/delete-groupe', [App\Http\Controllers\GroupeController::class, 'destroy']);
 

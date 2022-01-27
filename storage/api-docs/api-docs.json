@@ -21,12 +21,13 @@
     "paths": {
         "/list-user/{id}": {
             "get": {
+                "description": "API qui permet d'ajouter un membre parmis la liste des utilisateurs qui n'appartiennent pas au groupe",
                 "operationId": "getListUser",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Parameter with mutliple examples",
+                        "description": "id du groupe",
                         "required": true,
                         "schema": {
                             "type": "string"

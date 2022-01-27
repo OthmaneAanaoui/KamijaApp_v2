@@ -204,7 +204,7 @@ body {
                               </div>
                               
 
-                              <a  v-on:click="addusers(value.id)" class="btn btn-outline-info" > <span class="fas fa-add"></span></a>
+                              <a  v-on:click="addusers(value.id,value.email)" class="btn btn-outline-info" > <span class="fas fa-add"></span></a>
                               
                             </li>
                           </ul>
@@ -313,6 +313,7 @@ body {
 
         returnView(id);
         
+        
             
       },
 
@@ -361,9 +362,9 @@ body {
                       console.log(error);
                     })
                   },
-                  addusers(User){
+                  addusers(User, mail){
                     const GroupID =id;
-                    AddNewMembreFunction(User,GroupID)
+                    AddNewMembreFunction(User,GroupID, mail)
                   
 
                 }
@@ -374,20 +375,36 @@ body {
     
 
 
-    function AddNewMembreFunction(users_id,groupe_id)
+    function AddNewMembreFunction(users_id,groupe_id,mail)
     {
     
         
         axios.post("../add-new-membre/userid="+users_id+"/groupeid="+groupe_id)
                     .then(response => {
                       alert("bien ajouté");
+                      NotifctationFunc(mail)
             })
                     .catch(function (error) {
                       alert("error");
         });
 
+       
+        
+        
+        
 
-        const mail = [{to:"othmane.developpeur@gmail.com", subject:"test api",message:"this for test"}];
+       
+    }
+    
+    var child_process = require('child_process');
+
+    function NotifctationFunc(user_mail)
+    {
+      const mail = {"to": [
+          user_mail
+        ],
+        "subject": "Adhésion",
+        "message": "Vous avez été ajouté dans un groupe merci d'aller sur ce lien : http://localhost:8000/home"};
         
         axios.post("http://localhost:4444/api/v1/mail/send", mail)
                     .then(response => {
@@ -396,12 +413,8 @@ body {
                     .catch(function (error) {
                       alert("error");
         });
-        
-        
-        
-
-       
     }
+
     
     
 </script>

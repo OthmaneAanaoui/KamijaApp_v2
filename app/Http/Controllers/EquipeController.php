@@ -22,8 +22,9 @@ class EquipeController extends Controller
      * @OA\Get(
      *      path="/list-user/{id}",
      *      operationId="getListUser",
+     *      description="API qui permet d'ajouter un membre parmis la liste des utilisateurs qui n'appartiennent pas au groupe",
     *     @OA\Parameter(
-    *         description="Parameter with mutliple examples",
+    *         description="id du groupe",
     *         in="path",
     *         name="id",
     *         required=true,

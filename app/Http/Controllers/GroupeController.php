@@ -85,8 +85,9 @@ class GroupeController extends Controller
      * @param  \App\Models\Groupe  $groupe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Groupe $groupe)
+    public function destroy($id)
     {
-        //
+        Groupe::where('id', $id)->delete();
+        return back();
     }
 }
