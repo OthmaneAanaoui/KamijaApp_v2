@@ -347,7 +347,7 @@ body {
                   
 
                    axios
-                    .get('../list-user/id='+id)
+                    .get('../list-user/'+id)
                     .then(response => {
                       
                       this.users = response.data;
@@ -381,6 +381,17 @@ body {
         axios.post("../add-new-membre/userid="+users_id+"/groupeid="+groupe_id)
                     .then(response => {
                       alert("bien ajouté");
+            })
+                    .catch(function (error) {
+                      alert("error");
+        });
+
+
+        const mail = [{to:"othmane.developpeur@gmail.com", subject:"test api",message:"this for test"}];
+        
+        axios.post("http://localhost:4444/api/v1/mail/send", mail)
+                    .then(response => {
+                      alert("succes !");
             })
                     .catch(function (error) {
                       alert("error");

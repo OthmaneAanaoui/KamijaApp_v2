@@ -22,7 +22,7 @@ Route::get('/list-groupes/{id}', [App\Http\Controllers\EquipeController::class, 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::Post('/add-group', [App\Http\Controllers\EquipeController::class, 'store']);
-Route::get('/list-user/id={id}', [App\Http\Controllers\EquipeController::class, 'getListUser']);
+Route::get('/list-user/{id}', [App\Http\Controllers\EquipeController::class, 'getListUser']);
 
 //addToEquipe
 
