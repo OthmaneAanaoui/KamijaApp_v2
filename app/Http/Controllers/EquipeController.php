@@ -129,6 +129,17 @@ class EquipeController extends Controller
         return Response()->json($getResult);
     }
 
+   public function addNewMembre($users_id,$groupe_id)
+   {
+       $data = new Equipe();
+       $data->groupe_id = $groupe_id;
+       $data->role_id = 1;
+       $data->users_id = $users_id;
+       $data->save();
+       return Back();
+
+   }
+
     /**
      * @OA\Get(
      *      path="/list-user/",
