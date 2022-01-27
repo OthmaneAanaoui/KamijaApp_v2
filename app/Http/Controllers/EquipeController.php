@@ -12,49 +12,24 @@ use Illuminate\Support\Facades\Input as input;
 
 class EquipeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
-     /**
+    /**
      * @OA\Get(
-     *      path="/list-user/{id}",
+     *      path="/list-group/{id}",
      *      operationId="getListUser",
-     *      description="API qui permet d'ajouter un membre parmis la liste des utilisateurs qui n'appartiennent pas au groupe",
-    *     @OA\Parameter(
-    *         description="id du groupe",
-    *         in="path",
-    *         name="id",
-    *         required=true,
-    *         @OA\Schema(type="string"),
-    *         @OA\Examples(example="int", value="1", summary="An int value."),
-    *         @OA\Examples(example="uuid", value="0006faf6-7a61-426c-9034-579f2cfcfa83", summary="An UUID value."),
-    *     ),
+     *      @OA\Parameter(
+     *          description="Parameter with mutliple examples",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          @OA\Schema(type="string"),
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
      *          @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
+     *           mediaType="application/json")
      *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     * @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     * @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
      *  )
      */
     public function index($id)
@@ -63,15 +38,57 @@ class EquipeController extends Controller
         return Response()->json($data);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/user/email",
+     *      operationId="getListUser",
+     *      description="Get user id by email",
+     *      @OA\Parameter(
+     *          description="Email adress",
+     *          in="query",
+     *          name="email",
+     *          required=true,
+     *          @OA\Schema(type="string"),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json")
+     *      ),
+     *  )
+     */
     public function getIdFromEmail($UserEmail)
     {
         $getIdFromEmail = User::where("email", $UserEmail)->first();
-        
+
         return Response()->json($getIdFromEmail);
     }
 
 
-    public function store(Request $request, User $user)
+    /**
+     * @OA\Post(
+     *     path="/add-group/",
+     *     operationId="getListUser",
+     *     description="Crée un groupe avec le créateur",
+     *     @OA\RequestBody(
+     *         mediaType="application/json",
+     *         @OA\Schema(
+     *             @OA\Property(
+     *                 property="name_groupe",
+     *                 type="string"
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\MediaType(
+     *          mediaType="application/json")
+     *     ),
+     *  )
+     */
+    public function store(Request $request)
     {
         $dataG = new Groupe();
         $dataG->name = $request->name_groupe;
@@ -84,7 +101,26 @@ class EquipeController extends Controller
         return Back();
     }
 
-
+   /**
+     * @OA\Get(
+     *      path="/list-user/",
+     *      operationId="getListUser",
+     *      description="Get users by id group",
+     *      @OA\Parameter(
+     *          description="Email adress",
+     *          in="query",
+     *          name="email",
+     *          required=true,
+     *          @OA\Schema(type="string"),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json")
+     *      ),
+     *  )
+     */
     public function getListUser($id)
     {
         $data = 'select id,email,name from users where id not in (select users_id from equipes where groupe_id='.$id.')';
@@ -94,31 +130,33 @@ class EquipeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Equipe  $equipe
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/list-user/",
+     *      operationId="getListUser",
+     *      description="Get users by id group",
+     *      @OA\Parameter(
+     *          description="Email adress",
+     *          in="query",
+     *          name="email",
+     *          required=true,
+     *          @OA\Schema(type="string"),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json")
+     *      ),
+     *  )
      */
-    public function addNewMembre($users_id,$groupe_id)
+    public function addNewMembre2(Request $request)
     {
-        $data = new Equipe();
-        $data->groupe_id = $groupe_id;
-        $data->role_id = 1;
-        $data->users_id = $users_id;
-        $data->save();
-        return Back();
-
-        
-    }
-
-    public function addNewMembre2(Request $request)  
-    {  
         $data = new Equipe();
         $data->groupe_id = $request->$groupeid;
         $data->role_id = 1;
         $data->users_id = $request->$usersid;
         $data->save();
-        return Back();  
+        return Back();
     }
 
     /**
